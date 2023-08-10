@@ -4,10 +4,6 @@ function AnnualSalaryTaxCalculator() {
   const [annualSalary, setAnnualSalary] = useState('');
   const [tax, setTax] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
-  const [advance, setAdvance] = useState(false);
-
-  const [deductionsAmount, setDeductionsAmount] = useState('');
-  const [exemptionsAmount, setExemptionsAmount] = useState('');
 
   const calculateTax = (e) => {
     e.preventDefault();
@@ -18,7 +14,6 @@ function AnnualSalaryTaxCalculator() {
 
     const salaryAmount = parseFloat(annualSalary);
 
-    // Ensure the input is a positive number before proceeding with tax calculation
     if (salaryAmount < 0) {
       setErrorMessage('Please enter a valid positive salary amount.');
       return;
@@ -26,22 +21,22 @@ function AnnualSalaryTaxCalculator() {
 
     let calculatedTax = 0;
 
-    // Simplified tax calculation logic for illustration purposes
     if (salaryAmount <= 300000) {
       calculatedTax = 0;
-    } else if ( salaryAmount > 300000 && salaryAmount <= 600000) {
+    } else if (salaryAmount <= 600000) {
       calculatedTax = (salaryAmount - 300000) * 0.05;
-    } else if ( salaryAmount > 600000 && salaryAmount <= 900000) {
+    } else if (salaryAmount <= 900000) {
       calculatedTax = 300000 * 0.05 + (salaryAmount - 600000) * 0.10;
-    } else if (  salaryAmount > 900000 && salaryAmount <= 1200000) {
+    } else if (salaryAmount <= 1200000) {
       calculatedTax = 300000 * 0.05 + 600000 * 0.10 + (salaryAmount - 900000) * 0.15;
-    } else if (  salaryAmount > 1200000 && salaryAmount <= 1500000) {
+    } else if (salaryAmount <= 1500000) {
       calculatedTax = 300000 * 0.05 + 600000 * 0.10 + 900000 * 0.15 + (salaryAmount - 1200000) * 0.2;
     } else {
-      calculatedTax =( 300000 * 0.05) +( 300000 * 0.10) + (300000 * 0.15) +( 300000 * 0.20)+ (salaryAmount-1500000)*0.30;
+      calculatedTax = (300000 * 0.05) + (300000 * 0.10) + (300000 * 0.15) + (300000 * 0.20) + (salaryAmount - 1500000) * 0.30;
     }
-return calculateTax
+
     setTax(calculatedTax.toFixed(2));
+   
     setErrorMessage('');
   };
 
@@ -53,7 +48,7 @@ return calculateTax
         <thead className="thead-dark">
           <tr>
             <th scope="col">Salary Range</th>
-            <th scope="col">Tax value</th>
+            <th scope="col">Tax Rate</th>
           </tr>
         </thead>
         <tbody>
@@ -99,13 +94,11 @@ return calculateTax
           <button className='btn btn-primary' type='submit'>Calculate Tax</button>
         </div>
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      
-        {/* ... input fields for deductions and exemptions ... */}
       </form>
 
-      {tax !== null ? (
-        <p>Tax Amount: {tax}</p>
-      ) : null}
+      {tax == null ? (
+       null
+      ) :  <p>Tax Amount: {tax}</p>}
     </div>
   );
 }
